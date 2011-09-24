@@ -10,6 +10,7 @@ class Artist(models.Model):
 
 class ConcertDate(models.Model):
     artist = models.ForeignKey(Artist)
+    act_name = models.CharField(max_length=255)
     venue = models.ForeignKey(Venue)
     date = models.DateField()
 

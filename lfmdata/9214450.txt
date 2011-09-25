@@ -1,0 +1,1 @@
+{"events":{"#text":"\n","venue":"Maison symphonique de Montr\u00e9al","url":"http:\/\/www.last.fm\/venue\/9214450+Maison+symphonique+de+Montr%C3%A9al\/events","venuetimezone":"EST","festivalsonly":"0","page":"0","perPage":"1000","totalPages":"0","total":"0"}}

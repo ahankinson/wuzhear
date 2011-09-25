@@ -1,0 +1,1 @@
+{"events":{"#text":"\n","venue":"5e Salle - Place des Arts","url":"http:\/\/www.last.fm\/venue\/9217901+5e+Salle+-+Place+des+Arts\/events","venuetimezone":"EST","festivalsonly":"0","page":"0","perPage":"1000","totalPages":"0","total":"0"}}

@@ -1,0 +1,1 @@
+{"events":{"#text":"\n","venue":"Bar le Thrash","url":"http:\/\/www.last.fm\/venue\/9210230+Bar+le+Thrash\/events","venuetimezone":"EST","festivalsonly":"0","page":"0","perPage":"1000","totalPages":"0","total":"0"}}

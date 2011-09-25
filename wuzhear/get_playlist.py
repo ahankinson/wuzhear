@@ -4,10 +4,27 @@ import simplejson
 import musicbrainz as m
 import hmac
 
+import os
+import settings
+import re
+from datetime import datetime
+from django.core.management import setup_environ
+project_directory = setup_environ(settings)
+project_name = os.path.basename(project_directory)
+os.environ['DJANGO_SETTINGS_MODULE'] = "%s.settings" % project_name
+
+from wuzhear.hearapp.models import Artist, ConcertDate, Setlist, Song, Venue
+
+
+def cache_all_concert_song_ids():
+    all_concerts = ConcertDate.objects.all()
+    for concert in all_concerts:
+        print concert["artist"]
+
 
 def get_grooveshark_song_ids(artist_name, concert_year):
     release_name = get_release_name(artist_name, concert_year)
-
+    
     secret = "9099a07fe964eacc64a6cfc8141aa4ad"
     partial_url = "https://api.grooveshark.com/ws3.php?sig="
 
@@ -110,9 +127,10 @@ def get_release_name(artist_name, concert_year):
 
 
 def main():
-    songs = get_grooveshark_song_ids("Chick Corea", 2009)
-    for song in songs:
-        print song + "\n"
+    cache_all_concert_song_ids()
+    #songs = get_grooveshark_song_ids("Chick Corea", 2009)
+    #for song in songs:
+    #    print str(song) + "\n"
 	#print m.get_artist_by_id("952a4205-023d-4235-897c-6fdb6f58dfaa", [])
 	#print m.get_label_by_id("aab2e720-bdd2-4565-afc2-460743585f16")
 	#print m.get_release_by_id("e94757ff-2655-4690-b369-4012beba6114")

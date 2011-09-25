@@ -1,15 +1,5 @@
 <html>
 <head>
-<script type="text/javascript">
-function addSong(songlist, song_id){
-	if song_id == 0 {
-		return;
-	}
-	songlist+=",";
-	songlist+="song_id"
-	return songlist;
-}
-</script>
 </head>
 
 
@@ -29,7 +19,7 @@ function addSong(songlist, song_id){
 <!-- Print the song list to show it exists -->
     <ul>
     {% for song in concert_songs %}
-    	<li><button onclick=""/>{{ song.name}} - {{ song.en_id }}</a></li>
+    	<li>{{ song.name}} - {{ song.en_id }}</li>
     	<script type="text/javascript">
     		gs_songlist.concat({{ song.en_id }});
     	</script>

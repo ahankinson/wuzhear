@@ -19,22 +19,23 @@ from wuzhear.hearapp.models import Artist, ConcertDate, Setlist, Song, Venue
 def cache_all_concert_song_ids():
     all_concerts = ConcertDate.objects.all()
     for concert in all_concerts:
-        song_ids = get_grooveshark_song_ids(concert.artist, concert.date.year)
-        songs = []
-        for song_id in song_ids:
-            song, created = Song.objects.get_or_create(en_id=song_id)
-            if created:
-                song.save()
-            songs.append(song)
-            
-        setlist, created = Setlist.objects.get_or_create(concerts = concert, songs = songs, real_setlist = False)
+        print concert.artist.name+", "+str(concert.date.year)
+        setlist, created = Setlist.objects.get_or_create(concerts = concert, real_setlist = False)
         if created:
             setlist.save()
+        
+        song_ids = get_grooveshark_song_ids(concert.artist.name, concert.date.year)
+        for song_id in song_ids:
+            song, created = Song.objects.get_or_create(en_id=song_id, artist = concert.artist)
+            if created:
+                song.save()
+            setlist.songs.add(song)
+
 
 
 def get_grooveshark_song_ids(artist_name, concert_year):
     release_name = get_release_name(artist_name, concert_year)
-    
+
     secret = "9099a07fe964eacc64a6cfc8141aa4ad"
     partial_url = "https://api.grooveshark.com/ws3.php?sig="
 
@@ -54,7 +55,7 @@ def get_grooveshark_song_ids(artist_name, concert_year):
     song_id_list = None;
 
     if 'result' in release_json:
-        release_id = release_json['result']['albums'][0]['AlbumID'] 
+        release_id = release_json['result']['albums'][0]['AlbumID']
         params = '{"method":"getAlbumSongs","header":{"wsKey":"wuzhear"},"parameters":{"albumID":"'+str(release_id)+'"}}'
         digest_maker = hmac.new(secret)
         digest_maker.update(params)
@@ -68,9 +69,9 @@ def get_grooveshark_song_ids(artist_name, concert_year):
         if 'result' in songs_json:
             for song_match in songs_json['result']['songs']:
                 song_id_list.append(song_match['SongID'])
-            
+
     return song_id_list
-        
+
 
 def get_release_name(artist_name, concert_year):
     #given an artist name and concert year, retrieve the most recent release during or before that year

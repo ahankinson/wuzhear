@@ -1,18 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+     <style type="text/css">
+      html, body, #map_canvas {
+        margin: 0;
+        padding: 0;
+        height: 500px;
+      }
+      </style>
+    <script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?sensor=false">
+</script>
+<script type="text/javascript">
+  var map;
+  function initialize() {
+    var latlng = new google.maps.LatLng(45.512843,-73.589344);
+    var myOptions = {
+      zoom: 13,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+    
+    latlon = new google.maps.LatLng(45.512843,-73.589344);
+    var marker = new google.maps.Marker({
+        position: latlon,
+        map: map,
+        title: "hello world"
+    });
+
+    jQuery.ajax({
+        url: '/ajax/venues',
+        success: function(data, status, xhr) {
+            mkr = {};
+            iwd = {};
+            jQuery.each(data.result, function(i, loc) {
+                mkr[i] = new google.maps.Marker({
+                    position: new google.maps.LatLng(loc.lat, loc.lon),
+                    map: map,
+                    title: loc.name
+                });
+                
+                iwd[i] = new google.maps.InfoWindow({
+                    content: loc.name
+                });
+
+                google.maps.event.addListener(mkr[i], 'click', function() {
+                    iwd[i].open(map, mkr[i]);
+                });
+
+            });
+        }
+    });
+
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+</head>
+<body>
+    <div id="map_canvas"></div>
 <h1>Venues</h1>
 
 <div id='venueList'>
 {% if full_venue_list %}
     <ul>
     {% for venue in full_venue_list %}
-        <li><a href="/getConcerts/{{ venue.lfm_venue_id }}"/>{{ venue }}</a></li>
+        <li><a href="/getConcerts/{{ venue.lfm_venue_id }}"/>{{ venue.name }}: {{ venue.lat }}, {{ venue.lon }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No venues are available.</p>
 {% endif %}
+
 </div>
-
-*-*-*
-
-
-</script>
+</body>
+</html>

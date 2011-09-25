@@ -5,6 +5,9 @@ from django.http import HttpResponse
 from django.db import models
 from django.template.response import TemplateResponse
 from datetime import datetime
+from django.core import serializers
+from django.utils import simplejson
+
  
 def index(request):
     full_venue_list = Venue.objects.all()
@@ -24,6 +27,14 @@ def getConcerts(request, venue_id):
         'venue_name': venue_name
     })
     return HttpResponse(t.render(c))
+
+def getVenues(request):
+    venues = Venue.objects.all()
+    v = {}
+    for venue in venues:
+        v[venue.lfm_venue_id] = {'name': venue.name, 'lat': venue.lat, 'lon': venue.lon}
+    response = {'success': True, 'result': v }
+    return HttpResponse(simplejson.dumps(response), mimetype="application/json")
 
 
 

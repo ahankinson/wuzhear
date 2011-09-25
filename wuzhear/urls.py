@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^getConcerts', 'hearapp.views.getConcerts'),
     url(r'^getConcerts/(\d{7})$', 'hearapp.views.getConcerts'),
+    url(r'^getSetlist/(.*)$', 'hearapp.views.getSetlist'),
     url(r'^$', 'hearapp.views.index', name='home'),
     # url(r'^wuzhear/', include('wuzhear.foo.urls')),
 

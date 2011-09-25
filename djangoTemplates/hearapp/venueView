@@ -1,0 +1,33 @@
+<h1>Venues</h1>
+
+<div id='venueList'>
+{% if latest_venue_list %}
+    <ul>
+    {% for venue in latest_venue_list %}
+        <li><a href="/getConcerts/{{ venue.lfm_venue_id }}"/>{{ venue }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No venues are available.</p>
+{% endif %}
+</div>
+
+*-*-*
+
+<div id='concertList'>
+</div>
+*~*~*
+<div id='oneConcert'>
+</div>
+
+
+
+<script type-"text/javascript">
+
+
+function selectConcert(id){
+	document.getElementById('oneConcert')='hi there!';
+}
+
+
+</script>

@@ -1,0 +1,15 @@
+<h1>Concerts at {{ venue_name }}</h1>
+
+<div id='concertList'>
+{% if venue_concert_list %}
+    <ul>
+    {% for concert in venue_concert_list %}
+    	<li><a href="/getSetlist/{{ concert.id }}"/>{{ concert.date}} - {{ concert.artist }}</a></li>
+    {% endfor %}
+
+
+    </ul>
+{% else %}
+    <p>No concerts are available.</p>
+{% endif %}
+</div>

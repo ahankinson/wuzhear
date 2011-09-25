@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^getConcerts/(\d{7})$', 'hearapp.views.getConcerts'),
     url(r'^getSetlist/(.*)$', 'hearapp.views.getSetlist'),
     url(r'^$', 'hearapp.views.index', name='home'),
+    url(r'^ajax/venues$', 'hearapp.views.getVenues'),
     # url(r'^wuzhear/', include('wuzhear.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

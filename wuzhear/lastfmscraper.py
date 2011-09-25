@@ -6,8 +6,17 @@ from optparse import OptionParser
 import urllib2
 import json
 import codecs
+from datetime import datetime
 import pdb
 
+
+import settings
+from django.core.management import setup_environ
+project_directory = setup_environ(settings)
+project_name = os.path.basename(project_directory)
+os.environ['DJANGO_SETTINGS_MODULE'] = "%s.settings" % project_name
+
+from wuzhear.hearapp.models import Artist, ConcertDate, Setlist, Song, Venue
 
 LFM_API_KEY = "6dd5675d77c4eecf6f3334be113b1f1f"
 LFM_SECRET = "33b065b56d8c085d04ad76bd3ce8adf7"
@@ -20,7 +29,7 @@ def get_venues():
     # f = open('lfmdata/georesults.txt', 'w')
     # f.write(r.read())
     # f.close()
-    f = codecs.open("lfmdata/georesults.txt", 'r', 'utf-8')
+    f = codecs.open("../lfmdata/georesults.txt", 'r', 'utf-8')
     contents = f.read()
     f.close()
     results = json.loads(contents)
@@ -30,8 +39,17 @@ def get_venues():
         venue = event['venue']
         vid = venue['id']
         vname = venue['name']
-        ven[vid] = vname
+        ven[vid] = {}
+        ven[vid]['name'] = vname
+        ven[vid]['lat'] = venue['location']['geo:point']['geo:lat']
+        ven[vid]['lon'] = venue['location']['geo:point']['geo:long']
     return ven
+
+def add_venues_to_database(venues):
+    for venue_id, venue_info in venues.iteritems():
+        v = Venue(name=venue_info['name'], lfm_venue_id=venue_id, lat=venue_info['lat'], lon=venue_info['lon'])
+        v.save()
+
 
 def get_concerts_for_venue(venue_id):
     lg.debug(venue_id)
@@ -40,7 +58,7 @@ def get_concerts_for_venue(venue_id):
     # content = unicode(r.read(), errors = "ignore")
     # f.write(content)
     # f.close()
-    f = codecs.open("lfmdata/{0}.txt".format(venue_id), 'r', 'utf-8')
+    f = codecs.open("../lfmdata/{0}.txt".format(venue_id), 'r', 'utf-8')
     contents = f.read()
     f.close()
     results = json.loads(contents)
@@ -64,29 +82,68 @@ def get_concerts_for_venue(venue_id):
             artists = event['artists']['artist']
             start_date = event['startDate']
             cancelled = event['cancelled']
+            venue = event['venue']['id']
             if isinstance(artists, types.ListType):
                 for artist in artists:
-                    # make a new concert for every artist
-                    pass
+                    a, created = Artist.objects.get_or_create(name=artist)
+                    if created:
+                        a.save()
+                    v = Venue.objects.get(lfm_venue_id=venue)
+                    cdate = datetime.strptime(start_date, "%a, %d %b %Y %H:%M:%S")
+                    if int(cancelled) != 0:
+                        cancelled = True
+                    else:
+                        cancelled = False
+
+                    c = ConcertDate(artist = a, venue = v, date = cdate, cancelled=cancelled, lfm_concert_id=lfm_concert_id)
+                    c.save()
             else:
                 # make a new concert for every artist
-                pass
+                a, created = Artist.objects.get_or_create(name=artists)
+                if created:
+                    a.save()
+                v = Venue.objects.get(lfm_venue_id=venue)
+                cdate = datetime.strptime(start_date, "%a, %d %b %Y %H:%M:%S")
+                if int(cancelled) != 0:
+                    cancelled = True
+                else:
+                    cancelled = False
+                    
+                c = ConcertDate(artist = a, venue = v, date = cdate, cancelled=cancelled, lfm_concert_id=lfm_concert_id)
+                c.save()
     else:
         lfm_concert_id = events['id']
         artists = events['artists']['artist']
         start_date = events['startDate']
         cancelled = events['cancelled']
+        venue = events['venue']['id']
         if isinstance(artists, types.ListType):
             for artist in artists:
-                # make a new concert for every artist
-                pass
+                a, created = Artist.objects.get_or_create(name=artist)
+                if created:
+                    a.save()
+                v = Venue.objects.get(lfm_venue_id=venue)
+                cdate = datetime.strptime(start_date, "%a, %d %b %Y %H:%M:%S")
+                if int(cancelled) != 0:
+                    cancelled = True
+                else:
+                    cancelled = False
+                    
+                c = ConcertDate(artist = a, venue = v, date = cdate, cancelled=cancelled, lfm_concert_id=lfm_concert_id)
+                c.save()
         else:
-            # make a new concert for every artist
-            pass
-
-
-
-
+            a, created = Artist.objects.get_or_create(name=artists)
+            if created:
+                a.save()
+            v = Venue.objects.get(lfm_venue_id=venue)
+            cdate = datetime.strptime(start_date, "%a, %d %b %Y %H:%M:%S")
+            if int(cancelled) != 0:
+                cancelled = True
+            else:
+                cancelled = False
+                
+            c = ConcertDate(artist = a, venue = v, date = cdate, cancelled=cancelled, lfm_concert_id=lfm_concert_id)
+            c.save()
 
 if __name__ == "__main__":
     parser = OptionParser()
@@ -141,5 +198,8 @@ if __name__ == "__main__":
     lg.debug("LAST FM Session Key: %s" % (SESSION_KEY,))
 
     venues = get_venues()
+
+    add_venues_to_database(venues)
+
     for venue in venues.keys():
         get_concerts_for_venue(venue)

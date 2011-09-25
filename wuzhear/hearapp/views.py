@@ -28,11 +28,17 @@ def getConcerts(request, venue_id):
 
 
 def getSetlist(request, concert_id):
-    this_concert = Setlist.objects.get(concerts=concert_id)
-    concert_songs = this_concert.songs
-    official_setlist = this_concert.real_setlist
+    this_concert = Setlist.objects.filter(concerts=concert_id)
+    if this_concert:
+        concert_songs = this_concert.songs
+        official_setlist = this_concert.real_setlist
+    else:
+        concert_songs = None
+        official_setlist = None
+    
     t = loader.get_template('hearapp/concertView.html')
     c = Context({
+        'concert_id': concert_id,
         'this_concert': this_concert,
         'concert_songs': concert_songs,
         'official_setlist': official_setlist

@@ -1,4 +1,4 @@
-<h1>Setlist for {{ concert_date.artist }} at {{ venue_name }} on {{ concert_date.date }}</h1>
+<h1>Setlist for {{ concert_id.artist }} at {{ concert_id.venue }} on {{ concert_id.date }}</h1>
 
 <div id='setlistList'>
 {% if concert_songs %}
@@ -9,6 +9,6 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No concerts are available.</p>
+    <p>No setlist is available for this concert.</p>
 {% endif %}
 </div>

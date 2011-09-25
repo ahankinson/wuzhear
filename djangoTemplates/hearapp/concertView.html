@@ -1,10 +1,8 @@
 <html>
 <head>
 </head>
-
-
 <body>
-<h1>Setlist </h1>
+<h1>Setlist!</h1>
 
 <div id="widgetspace">
 </div>
@@ -19,9 +17,10 @@
 <!-- Print the song list to show it exists -->
     <ul>
     {% for song in concert_songs %}
-    	<li>{{ song.name}} - {{ song.en_id }}</li>
+    	<li>{{ song.name }} - {{ song.en_id }}</li>
     	<script type="text/javascript">
     		gs_songlist.concat({{ song.en_id }});
+    		gs_songlist.concat(",");
     	</script>
     {% endfor %}
     </ul>
@@ -40,7 +39,7 @@
     <p>Sorry, no set list is available for this concert!</p>
  <!-- Insert Flash widget filler -->
 	<script type="text/javascript">
-		x="<object width='250' height='200'><param name='movie' value='http://grooveshark.com/widget.swf' /><param name='wmode' value='window' /><param name='allowScriptAccess' value='always' /><param name='flashvars' value='hostname=cowbell.grooveshark.com&songIDs=24788067&bbg=FFFFFF&bth=FFFFFF&pfg=FFFFFF&lfg=FFFFFF&bt=D70860&pbg=D70860&pfgh=D70860&si=D70860&lbg=D70860&lfgh=D70860&sb=D70860&bfg=9A9A9A&pbgh=9A9A9A&lbgh=9A9A9A&sbh=9A9A9A&p=0' /><embed src='http://grooveshark.com/widget.swf' type='application/x-shockwave-flash' width='250' height='200' flashvars='hostname=cowbell.grooveshark.com&songIDs=24788067&bbg=FFFFFF&bth=FFFFFF&pfg=FFFFFF&lfg=FFFFFF&bt=D70860&pbg=D70860&pfgh=D70860&si=D70860&lbg=D70860&lfgh=D70860&sb=D70860&bfg=9A9A9A&pbgh=9A9A9A&lbgh=9A9A9A&sbh=9A9A9A&p=0' allowScriptAccess='always' wmode='window' /></object>";
+		x="<object width='250' height='200'><param name='movie' value='http://grooveshark.com/widget.swf' /><param name='wmode' value='window' /><param name='allowScriptAccess' value='always' /><param name='flashvars' value='hostname=cowbell.grooveshark.com&songIDs=24788067,&bbg=FFFFFF&bth=FFFFFF&pfg=FFFFFF&lfg=FFFFFF&bt=D70860&pbg=D70860&pfgh=D70860&si=D70860&lbg=D70860&lfgh=D70860&sb=D70860&bfg=9A9A9A&pbgh=9A9A9A&lbgh=9A9A9A&sbh=9A9A9A&p=0' /><embed src='http://grooveshark.com/widget.swf' type='application/x-shockwave-flash' width='250' height='200' flashvars='hostname=cowbell.grooveshark.com&songIDs=24788067,&bbg=FFFFFF&bth=FFFFFF&pfg=FFFFFF&lfg=FFFFFF&bt=D70860&pbg=D70860&pfgh=D70860&si=D70860&lbg=D70860&lfgh=D70860&sb=D70860&bfg=9A9A9A&pbgh=9A9A9A&lbgh=9A9A9A&sbh=9A9A9A&p=0' allowScriptAccess='always' wmode='window' /></object>";
 		document.getElementById("widgetspace").innerHTML=x;
 	</script>
 {% endif %}

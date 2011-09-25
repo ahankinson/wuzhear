@@ -6,11 +6,12 @@ class VenueAdmin(admin.ModelAdmin):
 admin.site.register(Venue, VenueAdmin)
 
 class ArtistAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ("name",)
 admin.site.register(Artist, ArtistAdmin)
 
 class ConcertDateAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("venue", "artist", "date")
+    search_fields = ("artist",)
 admin.site.register(ConcertDate, ConcertDateAdmin)
 
 class SetlistAdmin(admin.ModelAdmin):

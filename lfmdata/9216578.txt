@@ -1,0 +1,1 @@
+{"events":{"#text":"\n","venue":"Salon Officiel","url":"http:\/\/www.last.fm\/venue\/9216578+Salon+Officiel\/events","venuetimezone":"EST","festivalsonly":"0","page":"0","perPage":"1000","totalPages":"0","total":"0"}}

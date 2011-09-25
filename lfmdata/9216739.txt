@@ -1,0 +1,1 @@
+{"events":{"#text":"\n","venue":"L'Hemisphere Gauche","url":"http:\/\/www.last.fm\/venue\/9216739+L%27Hemisphere+Gauche\/events","venuetimezone":"EST","festivalsonly":"0","page":"0","perPage":"1000","totalPages":"0","total":"0"}}

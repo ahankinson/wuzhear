@@ -1,0 +1,1 @@
+{"events":{"#text":"\n","venue":"Bar Test","url":"http:\/\/www.last.fm\/venue\/9032124+Bar+Test\/events","venuetimezone":"EST","festivalsonly":"0","page":"0","perPage":"1000","totalPages":"0","total":"0"}}

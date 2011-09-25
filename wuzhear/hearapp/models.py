@@ -24,7 +24,7 @@ class ConcertDate(models.Model):
     lfm_concert_id = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return self.venue.name
+        return self.artist
 
 class Song(models.Model):
     song_name = models.CharField(max_length=255)
@@ -38,3 +38,6 @@ class Setlist(models.Model):
     concerts = models.ForeignKey(ConcertDate)
     songs = models.ManyToManyField(Song)
     real_setlist = models.BooleanField()
+
+    def __unicode__(self):
+        return self.songs

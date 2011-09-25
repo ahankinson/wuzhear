@@ -6,7 +6,10 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'wuzhear.views.home', name='home'),
+    # url(r'^getConcerts', 'hearapp.views.getConcerts'),
+    url(r'^getConcerts/(\d{7})$', 'hearapp.views.getConcerts'),
+    url(r'^getSetlist/(.*)$', 'hearapp.views.getSetlist'),
+    url(r'^$', 'hearapp.views.index', name='home'),
     # url(r'^wuzhear/', include('wuzhear.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -1,0 +1,14 @@
+<h1>Setlist for {{ concert_id.artist }} at {{ concert_id.venue }} on {{ concert_id.date }}</h1>
+
+<div id='setlistList'>
+{% if concert_songs %}
+    <ul>
+    {% for song in concert_songs %}
+    <!--  -->
+    	<li><button onclick=""/>{{ song.name}} - {{ song.en_id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No setlist is available for this concert.</p>
+{% endif %}
+</div>

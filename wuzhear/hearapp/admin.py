@@ -2,7 +2,7 @@ from django.contrib import admin
 from wuzhear.hearapp.models import Venue, Artist, ConcertDate, Setlist, Song
 
 class VenueAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ("name",)
 admin.site.register(Venue, VenueAdmin)
 
 class ArtistAdmin(admin.ModelAdmin):
@@ -11,7 +11,7 @@ admin.site.register(Artist, ArtistAdmin)
 
 class ConcertDateAdmin(admin.ModelAdmin):
     list_display = ("venue", "artist", "date")
-    search_fields = ("artist",)
+    search_fields = ("artist__name",)
 admin.site.register(ConcertDate, ConcertDateAdmin)
 
 class SetlistAdmin(admin.ModelAdmin):

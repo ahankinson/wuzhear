@@ -6,7 +6,7 @@
       html, body, #map_canvas {
         margin: 0;
         padding: 0;
-        height: 500px;
+        height: 100%;
       }
       </style>
     <script type="text/javascript"
@@ -34,9 +34,11 @@
     jQuery.ajax({
         url: '/ajax/venues',
         success: function(data, status, xhr) {
+            console.log(data);
             mkr = {};
             iwd = {};
             jQuery.each(data.result, function(i, loc) {
+                console.log(i);
                 mkr[i] = new google.maps.Marker({
                     position: new google.maps.LatLng(loc.lat, loc.lon),
                     map: map,
@@ -44,7 +46,7 @@
                 });
                 
                 iwd[i] = new google.maps.InfoWindow({
-                    content: loc.name
+                    content: '<a href="/getConcerts/' + loc.vid + '">' + loc.name + '</a>'
                 });
 
                 google.maps.event.addListener(mkr[i], 'click', function() {
@@ -62,19 +64,5 @@
 </head>
 <body>
     <div id="map_canvas"></div>
-<h1>Venues</h1>
-
-<div id='venueList'>
-{% if full_venue_list %}
-    <ul>
-    {% for venue in full_venue_list %}
-        <li><a href="/getConcerts/{{ venue.lfm_venue_id }}"/>{{ venue.name }}: {{ venue.lat }}, {{ venue.lon }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No venues are available.</p>
-{% endif %}
-
-</div>
 </body>
 </html>

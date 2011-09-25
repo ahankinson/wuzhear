@@ -32,7 +32,7 @@ def getVenues(request):
     venues = Venue.objects.all()
     v = {}
     for venue in venues:
-        v[venue.lfm_venue_id] = {'name': venue.name, 'lat': venue.lat, 'lon': venue.lon}
+        v[venue.lfm_venue_id] = {'name': venue.name, 'lat': venue.lat, 'lon': venue.lon, 'vid': venue.lfm_venue_id }
     response = {'success': True, 'result': v }
     return HttpResponse(simplejson.dumps(response), mimetype="application/json")
 

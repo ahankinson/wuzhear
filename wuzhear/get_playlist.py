@@ -19,7 +19,17 @@ from wuzhear.hearapp.models import Artist, ConcertDate, Setlist, Song, Venue
 def cache_all_concert_song_ids():
     all_concerts = ConcertDate.objects.all()
     for concert in all_concerts:
-        print concert["artist"]
+        song_ids = get_grooveshark_song_ids(concert.artist, concert.date.year)
+        songs = []
+        for song_id in song_ids:
+            song, created = Song.objects.get_or_create(en_id=song_id)
+            if created:
+                song.save()
+            songs.append(song)
+            
+        setlist, created = Setlist.objects.get_or_create(concerts = concert, songs = songs, real_setlist = False)
+        if created:
+            setlist.save()
 
 
 def get_grooveshark_song_ids(artist_name, concert_year):
